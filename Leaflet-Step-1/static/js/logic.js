@@ -29,27 +29,26 @@ function assignColor(magnitude) {
 }
 
 // GET request to query URL
+// Perform a GET request to the query URL
 d3.json(usgs, function(data) {
+    console.log(data.features);
+    // Using the features array sent back in the API data, create a GeoJSON layer and add it to the map
     createFeatures(data.features);
-});
-
-// function to run for each feature
-function createMap(earthquakeData) {
+  });
+  
+  function createFeatures(earthquakeData) {
+    function onEachFeature(feature, layer) {
+      layer.bindPopup(feature.properties.place + "<hr>" + new Date(feature.properties.time))
+    }
+  
     var earthquakes = L.geoJSON(earthquakeData, {
-        onEachFeature: function(feature, layer) {
-            // create popup for time and place of earthquake
-            layer.bindPopup("<h3>" + feature.properties.place + "</h3><hr><p>" + new Date(feature.properties.time) + "</p>" + "<p> Magnitude: " +  feature.properties.mag + "</p>")}, 
-            pointToLayer: function(feature, latlng) {
-            return new L.circle(latlng, {
-                radius: markerSize(feature.properties.mag),
-                fillColor: markerColor(feature.properties.mag),
-                fillOpacity: .75,
-                stroke: false,
-            })
-        }
+      onEachFeature: onEachFeature
     });
-    // createMap(earthquakes)
-}
+  
+    createMap(earthquakes);
+  
+  }
+  
 
 function createMap(earthquakes) {
     // create the mapbox layers
