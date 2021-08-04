@@ -87,7 +87,7 @@ function createMap(earthquakes) {
     };
 
     // create the map passing through the outdoors and earthquakes (overlayMap) layers for the initial display
-    var myMap = L.map('map', {
+    var myMap = L.map('mapid', {
         center: [36.7126875, -120.476189],
         zoom: 4,
         layers: [outdoors, earthquakes]
