@@ -50,4 +50,35 @@ function createMap(earthquakes) {
     }).addTo(myMap);
 
     // function and conditionals to create colors for markers
+    function assignColor(magnitude) {
+        if (magnitude > 5){
+            return "ee6352"
+        }
+        else if (magnitude > 4){
+            return "f79d84"
+        }
+        else if (magnitude > 3){
+            return "fac05e"
+        }
+        else if (magnitude > 2){
+            return "59cd90"
+        }
+        else if (magnitude > 1){
+            return "3fa7d6"
+        }
+        else {
+            return "#708090"
+        }
+    }
+
+    var legend = L.control({position: 'bottomright'});
+    
+    legend.onAdd = function(myMap) {
+        var div = L.DomUtil.create('div', 'info legend'),
+            magnitudes = [0, 1, 2, 3, 4, 5];
+        
+        for (var i = 0; i < magnitudes.length; i++) {
+            div.innerHTML +=
+        }
+    }
 }
