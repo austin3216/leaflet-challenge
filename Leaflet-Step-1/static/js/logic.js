@@ -38,4 +38,16 @@ function createMap(earthquakes) {
     var overlayMap = {
         "Earthquakes": earthquakes
     };
+
+    var myMap = L.map('map', {
+        center: [36.7126875, -120.476189],
+        zoom: 4,
+        layers: [outdoors, earthquakes]
+    });
+
+    L.control.layers(baseMap, overlayMap, {
+        collapsed: false
+    }).addTo(myMap);
+
+    // function and conditionals to create colors for markers
 }
