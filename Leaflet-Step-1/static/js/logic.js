@@ -48,7 +48,7 @@ function createMap(earthquakeData) {
             })
         }
     });
-    createMap(earthquakes)
+    // createMap(earthquakes)
 }
 
 function createMap(earthquakes) {
