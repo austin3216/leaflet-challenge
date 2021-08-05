@@ -10,7 +10,7 @@ d3.json(queryURL, function(data) {
   
 function createFeatures(earthquakeData) {
     function onEachFeature(feature, layer) {
-      layer.bindPopup("<h3>" + feature.properties.place + "</h3><hr><p>" + new Date(feature.properties.time) + "</p>" + "<h4> Magnitude: " + feature.properties.mag + "</h4>");
+        layer.bindPopup("<h3>" + feature.properties.place + "</h3><hr><p>" + new Date(feature.properties.time) + "</p>" + "<h4> Magnitude: " + feature.properties.mag + "</h4>");
     }
 
 // function and conditionals to create colors for markers
@@ -48,15 +48,12 @@ function circleSize(features, latlng) {
 }
 
     var earthquakes = L.geoJSON(earthquakeData, {
-      onEachFeature: onEachFeature,
-      pointToLayer: circleSize
+        onEachFeature: onEachFeature,
+        pointToLayer: circleSize
     });
-  
     createMap(earthquakes);
-  
 }
   
-
 function createMap(earthquakes) {
     // create the mapbox layers
     var satellite = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
