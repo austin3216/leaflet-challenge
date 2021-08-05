@@ -94,7 +94,7 @@ function createMap(earthquakes) {
 
     var legend = L.control({position: 'bottomright'});
     
-    legend.onAdd = function(myMap) {
+    legend.onAdd = function() {
         var div = L.DomUtil.create('div', 'info legend'),
             magnitudes = [0, 1, 2, 3, 4, 5]
             labels = [];
