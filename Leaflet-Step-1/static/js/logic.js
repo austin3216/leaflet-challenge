@@ -123,5 +123,3 @@ function createMap(earthquakes) {
     };
     legend.addTo(myMap);
 };
-
-    
