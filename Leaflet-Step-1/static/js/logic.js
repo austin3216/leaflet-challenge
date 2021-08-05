@@ -1,11 +1,6 @@
 // create API/geojson variable - selected 7-day data of all earthquakes
 var usgs = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
 
-// function to set the marker size based on the magnitude of the earthquake
-function markerSize(magnitude) {
-    return magnitude * 20000;
-}
-
 // function and conditionals to create colors for markers
 function assignColor(magnitude) {
     if (magnitude > 5){
@@ -40,7 +35,7 @@ d3.json(usgs, function(data) {
     function onEachFeature(feature, layer) {
       layer.bindPopup(feature.properties.place + "<hr>" + new Date(feature.properties.time))
     }
-  
+
     var earthquakes = L.geoJSON(earthquakeData, {
       onEachFeature: onEachFeature
     });
