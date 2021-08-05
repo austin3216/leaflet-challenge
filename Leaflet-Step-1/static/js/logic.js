@@ -97,16 +97,16 @@ function createMap(earthquakes) {
         collapsed: false
     }).addTo(myMap);
 
-    
-
     var legend = L.control({position: 'bottomright'});
     
     legend.onAdd = function(myMap) {
         var div = L.DomUtil.create('div', 'info legend'),
-            magnitudes = [0, 1, 2, 3, 4, 5];
+            magnitudes = [0, 1, 2, 3, 4, 5]
+            labels = [];
         
         for (var i = 0; i < magnitudes.length; i++) {
-            div.innerHTML += '<i style="background:' + getColor(magnitudes[i] + 1) + '"></i>' + magnitudes[i] + (magnitudes[i + 1] ? '&ndash;' + magnitudes[i + 1] + '<br>' : '+');
+            div.innerHTML += 
+                '<i style="background:' + getColors(magnitudes[i]) + '"></i>' + magnitudes[i] + (magnitudes[i + 1] ? '&ndash;' + magnitudes[i + 1] + '<br>' : '+');
         }
         return div
     };
