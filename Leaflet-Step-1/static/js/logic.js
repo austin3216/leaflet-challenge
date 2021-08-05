@@ -5,8 +5,8 @@ var queryURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_we
 d3.json(queryURL, function(data) {
     console.log(data.features);
     // Using the features array sent back in the API data, create a GeoJSON layer and add it to the map
-    createFeatures(data.features);
-  });
+    createFeatures(data.features)
+});
   
 function createFeatures(earthquakeData) {
     function onEachFeature(feature, layer) {
@@ -50,7 +50,7 @@ function circleSize(features, latlng) {
         pointToLayer: circleSize
     });
 
-    createMap(earthquakes);
+    createMap(earthquakes)
 };
   
 function createMap(earthquakes) {
@@ -106,7 +106,7 @@ function createMap(earthquakes) {
         position: "bottomright"
     });
 
-    info.addTo(myMap);
+    info.addTo(myMap)
     
     // create layer control
     L.control.layers(baseMaps, overlayMap, {
