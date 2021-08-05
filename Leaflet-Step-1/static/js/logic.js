@@ -105,24 +105,13 @@ function createMap(earthquakes) {
         layers: [streetmap, earthquakes]
     });
 
-    // adds a layer control to allow for switching between layers
+    // create and add legend to map
+    var legend = L.control({position: 'bottomright'});
+    
+    legend.addTo(myMap);
+
+    // add layer control to allow for switching between layers
     L.control.layers(baseMaps, overlayMap, {
         collapsed: false
     }).addTo(myMap);
-
-    var legend = L.control({position: 'bottomright'});
-    
-    legend.onAdd = function() {
-        var div = L.DomUtil.create('div', 'info legend'),
-            magnitudes = [0, 1, 2, 3, 4, 5]
-            labels = [];
-        
-        for (var i = 0; i < magnitudes.length; i++) {
-            div.innerHTML += 
-                '<i style="background:' + assignColor(magnitudes[i]) + '"></i>' + magnitudes[i] + (magnitudes[i + 1] ? '&ndash;' + magnitudes[i + 1] + '<br>' : '+');
-        }
-        return div
-    };
-
-    legend.addTo(myMap);
 }
