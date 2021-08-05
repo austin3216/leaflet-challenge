@@ -1,5 +1,17 @@
 // create API/geojson variable - selected 7-day data of all earthquakes
-var usgs = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
+var queryURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
+
+// Perform a GET request to the query URL
+d3.json(queryURL, function(data) {
+    console.log(data.features);
+    // Using the features array sent back in the API data, create a GeoJSON layer and add it to the map
+    createFeatures(data.features);
+  });
+  
+  function createFeatures(earthquakeData) {
+    function onEachFeature(feature, layer) {
+      layer.bindPopup("<h3>" + feature.properties.place + "</h3><hr><p>" + new Date(feature.properties.time) + "</p>" + "<h4> Magnitude: " + feature.properties.mag + "</h4>");
+    }
 
 // function and conditionals to create colors for markers
 function assignColor(magnitude) {
@@ -23,21 +35,21 @@ function assignColor(magnitude) {
     }
 }
 
-// GET request to query URL
-// Perform a GET request to the query URL
-d3.json(usgs, function(data) {
-    console.log(data.features);
-    // Using the features array sent back in the API data, create a GeoJSON layer and add it to the map
-    createFeatures(data.features);
-  });
-  
-  function createFeatures(earthquakeData) {
-    function onEachFeature(feature, layer) {
-      layer.bindPopup(feature.properties.place + "<hr>" + new Date(feature.properties.time))
+// function to size the circle according to magnitude
+function circleSize(features, latlng) {
+    var circleSizes = {
+        radius: features.properties.mag * 10,
+        fillColor: assignColor(features.properties.mag),
+        color: assignColor(features.properties.mag),
+        opacity: 1,
+        fillOpacity: .75
     }
+    return L.circleMarker(latlng, circleSizes)
+}
 
     var earthquakes = L.geoJSON(earthquakeData, {
-      onEachFeature: onEachFeature
+      onEachFeature: onEachFeature,
+      pointToLayer: circleSize
     });
   
     createMap(earthquakes);
@@ -57,7 +69,7 @@ function createMap(earthquakes) {
     });
 
     var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-    attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+    attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
         tileSize: 512,
         maxZoom: 18,
         zoomOffset: -1,
@@ -66,7 +78,7 @@ function createMap(earthquakes) {
     });
 
     var lightmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-    attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+    attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
         tileSize: 512,
         maxZoom: 18,
         zoomOffset: -1,
@@ -88,8 +100,8 @@ function createMap(earthquakes) {
 
     // create the map passing through the outdoors and earthquakes (overlayMap) layers for the initial display
     var myMap = L.map('mapid', {
-        center: [36.7126875, -120.476189],
-        zoom: 4,
+        center: [37.734, -122.447],
+        zoom: 5,
         layers: [streetmap, earthquakes]
     });
 
