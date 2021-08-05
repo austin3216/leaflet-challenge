@@ -8,26 +8,26 @@ d3.json(queryURL, function(data) {
     createFeatures(data.features);
   });
   
-  function createFeatures(earthquakeData) {
+function createFeatures(earthquakeData) {
     function onEachFeature(feature, layer) {
       layer.bindPopup("<h3>" + feature.properties.place + "</h3><hr><p>" + new Date(feature.properties.time) + "</p>" + "<h4> Magnitude: " + feature.properties.mag + "</h4>");
     }
 
 // function and conditionals to create colors for markers
 function assignColor(magnitude) {
-    if (magnitude > 5){
+    if (magnitude >= 5){
         return "ee6352"
     }
-    else if (magnitude > 4){
+    else if (magnitude >= 4){
         return "f79d84"
     }
-    else if (magnitude > 3){
+    else if (magnitude >= 3){
         return "fac05e"
     }
-    else if (magnitude > 2){
+    else if (magnitude >= 2){
         return "59cd90"
     }
-    else if (magnitude > 1){
+    else if (magnitude >= 1){
         return "3fa7d6"
     }
     else {
@@ -54,7 +54,7 @@ function circleSize(features, latlng) {
   
     createMap(earthquakes);
   
-  }
+}
   
 
 function createMap(earthquakes) {
@@ -108,10 +108,21 @@ function createMap(earthquakes) {
     // create and add legend to map
     var legend = L.control({position: 'bottomright'});
     
+    legend.onAdd = function(){
+        var div = L.DomUtil.create('div', 'info legend'),
+            mags = [0, 1, 2, 3, 4, 5],
+            colors = ["#708090", "3fa7d6", "59cd90", "fac05e", "f79d84", "ee6352"];
+        
+        for (var i = 0; i < mags.length; i++) {
+            div.innerHTML +=
+                "<i style='background: " + colors[i] + "'></i> " + mags[i] + (mags[i + 1] ? "$ndash;" + mags[i + 1] + "<br>" : "+");
+        }
+        return div;
+    };
     legend.addTo(myMap);
+};
 
     // add layer control to allow for switching between layers
     L.control.layers(baseMaps, overlayMap, {
         collapsed: false
     }).addTo(myMap);
-}
