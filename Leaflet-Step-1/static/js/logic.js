@@ -13,25 +13,23 @@ function createFeatures(earthquakeData) {
         layer.bindPopup("<h3>" + feature.properties.place + "</h3><hr><p>" + new Date(feature.properties.time) + "</p>" + "<h4> Magnitude: " + feature.properties.mag + "</h4>");
     }
 
-// function and conditionals to create colors for markers
-function assignColor(magnitude) {
-    if (magnitude >= 5){
-        return "ee6352"
-    }
-    else if (magnitude >= 4){
-        return "f79d84"
-    }
-    else if (magnitude >= 3){
-        return "fac05e"
-    }
-    else if (magnitude >= 2){
-        return "59cd90"
-    }
-    else if (magnitude >= 1){
-        return "3fa7d6"
-    }
-    else {
-        return "#708090"
+// changed to switch function for color of earthquake magnitude
+function circleColor(magColor) {
+    switch(true) {
+        case (0 <= magColor && magColor <= 1.0):
+            return "Indigo";
+        case (1.0 <= magColor && magColor <= 2.0):
+            return "Blue";
+        case (2.0 <= magColor && magColor <= 3.0):
+            return "Green";
+        case (3.0 <= magColor && magColor <= 4.0):
+            return "Yellow";
+        case (4.0 <= magColor && magColor <= 5.0):
+            return "Orange";
+        case (5.0 <= magColor && magColor <= 6.0):
+            return "Red";
+        default:
+            return "Violet";
     }
 }
 
@@ -39,8 +37,8 @@ function assignColor(magnitude) {
 function circleSize(features, latlng) {
     var circleSizes = {
         radius: features.properties.mag * 10,
-        fillColor: assignColor(features.properties.mag),
-        color: assignColor(features.properties.mag),
+        fillColor: circleColor(features.properties.mag),
+        color: circleColor(features.properties.mag),
         opacity: 1,
         fillOpacity: .75
     }
@@ -51,6 +49,7 @@ function circleSize(features, latlng) {
         onEachFeature: onEachFeature,
         pointToLayer: circleSize
     });
+
     createMap(earthquakes);
 }
   
@@ -96,30 +95,21 @@ function createMap(earthquakes) {
     };
 
     // create the map passing through the outdoors and earthquakes (overlayMap) layers for the initial display
-    var myMap = L.map('mapid', {
+    var myMap = L.map("mapid", {
         center: [37.734, -122.447],
         zoom: 5,
         layers: [streetmap, earthquakes]
     });
 
-    // add layer control to allow for switching between layers
+    // add legend
+    var info = L.control({
+        position: "bottomright"
+    });
+
+    info.addTo(myMap);
+    
+    // create layer control
     L.control.layers(baseMaps, overlayMap, {
         collapsed: false
     }).addTo(myMap);
-    
-    // create and add legend to map
-    var legend = L.control({position: 'bottomright'});
-    
-    legend.onAdd = function(){
-        var div = L.DomUtil.create('div', 'info legend'),
-            mags = [0, 1, 2, 3, 4, 5],
-            colors = ["#708090", "3fa7d6", "59cd90", "fac05e", "f79d84", "ee6352"];
-        
-        for (var i = 0; i < mags.length; i++) {
-            div.innerHTML +=
-                "<i style='background: " + colors[i] + "'></i> " + mags[i] + (mags[i + 1] ? "$ndash;" + mags[i + 1] + "<br>" : "+");
-        }
-        return div;
-    };
-    legend.addTo(myMap);
-};
+}
