@@ -11,7 +11,7 @@ d3.json(queryURL, function(data) {
 function createFeatures(earthquakeData) {
     function onEachFeature(feature, layer) {
         layer.bindPopup("<h3>" + feature.properties.place + "</h3><hr><p>" + new Date(feature.properties.time) + "</p>" + "<h4> Magnitude: " + feature.properties.mag + "</h4>");
-    }
+    };
 
 // changed to switch function for color of earthquake magnitude
 function circleColor(magColor) {
@@ -30,8 +30,8 @@ function circleColor(magColor) {
             return "Red";
         default:
             return "Violet";
-    }
-}
+    };
+};
 
 // function to size the circle according to magnitude
 function circleSize(features, latlng) {
@@ -41,9 +41,9 @@ function circleSize(features, latlng) {
         color: circleColor(features.properties.mag),
         opacity: 1,
         fillOpacity: .75
-    }
+    };
     return L.circleMarker(latlng, circleSizes)
-}
+};
 
     var earthquakes = L.geoJSON(earthquakeData, {
         onEachFeature: onEachFeature,
@@ -51,7 +51,7 @@ function circleSize(features, latlng) {
     });
 
     createMap(earthquakes);
-}
+};
   
 function createMap(earthquakes) {
     // create the mapbox layers
