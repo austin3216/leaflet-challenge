@@ -105,6 +105,11 @@ function createMap(earthquakes) {
         layers: [streetmap, earthquakes]
     });
 
+    // add layer control to allow for switching between layers
+    L.control.layers(baseMaps, overlayMap, {
+        collapsed: false
+    }).addTo(myMap);
+    
     // create and add legend to map
     var legend = L.control({position: 'bottomright'});
     
@@ -122,7 +127,4 @@ function createMap(earthquakes) {
     legend.addTo(myMap);
 };
 
-    // add layer control to allow for switching between layers
-    L.control.layers(baseMaps, overlayMap, {
-        collapsed: false
-    }).addTo(myMap);
+    
