@@ -23,16 +23,6 @@ var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}
     accessToken: API_KEY
 }).addTo(myMap);
 
-// NOTE --> Satellite layer kept erroring, removed
-// var satellite = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-//     attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
-//     tileSize: 512,
-//     maxZoom: 18,
-//     zoomOffset: -1,
-//     id: "mapbox/satellite-v9",
-//     accessToken: API_KEY
-// }).addTo(myMap);
-
 // create query URL variable
 var queryURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
 
@@ -95,58 +85,3 @@ d3.json(queryURL, function(data) {
     };
     legend.addTo(myMap);
 });
-    
-    
-//     // Using the features array sent back in the API data, create a GeoJSON layer and add it to the map
-//     createFeatures(data.features)
-// });
-  
-// function createFeatures(earthquakeData) {
-//     function onEachFeature(feature, layer) {
-//         layer.bindPopup("<h3>" + feature.properties.place + "</h3><hr><p>" + new Date(feature.properties.time) + "</p>" + "<h4> Magnitude: " + feature.properties.mag + "</h4>");
-//     };
-
-
-
-//     var earthquakes = L.geoJSON(earthquakeData, {
-//         onEachFeature: onEachFeature,
-//         pointToLayer: circleSize
-//     });
-
-//     createMap(earthquakes)
-// };
-  
-// function createMap(earthquakes) {
-//     // create the mapbox layers
-    
-
-
-
-    
-
-//     // baseMaps object to hold chosen layers
-//     var baseMaps = {
-//         "Satellite": satellite,
-//         "Street Map": streetmap,
-//         "Light Map": lightmap
-//     };
-
-//     // overlayMap layer 
-//     var overlayMap = {
-//         Earthquakes: earthquakes
-//     };
-
-
-
-//     // add legend
-//     var info = L.control({
-//         position: "bottomright"
-//     });
-
-//     info.addTo(myMap)
-    
-//     // create layer control
-//     L.control.layers(baseMaps, overlayMap, {
-//         collapsed: false
-//     }).addTo(myMap);
-// }
