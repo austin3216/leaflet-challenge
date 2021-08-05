@@ -106,7 +106,7 @@ function createMap(earthquakes) {
         
         for (var i = 0; i < magnitudes.length; i++) {
             div.innerHTML += 
-                '<i style="background:' + getColors(magnitudes[i]) + '"></i>' + magnitudes[i] + (magnitudes[i + 1] ? '&ndash;' + magnitudes[i + 1] + '<br>' : '+');
+                '<i style="background:' + assignColor(magnitudes[i]) + '"></i>' + magnitudes[i] + (magnitudes[i + 1] ? '&ndash;' + magnitudes[i + 1] + '<br>' : '+');
         }
         return div
     };
